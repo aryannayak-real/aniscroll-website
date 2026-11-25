@@ -1,0 +1,113 @@
+---
+import Icon from './Icon.astro';
+import { site, url } from '../lib/site';
+
+const nav = [
+  { label: 'Features', href: `${url('')}#features` },
+  { label: 'Dictionary', href: `${url('')}#dictionary` },
+  { label: 'Screenshots', href: `${url('')}#screenshots` },
+  { label: 'FAQ', href: `${url('')}#faq` },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href={url('')} aria-label="AniScroll home">
+      <img src={url('icon-512.png')} width="36" height="36" alt="" />
+      <span>AniScroll</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="header-actions">
+      <a
+        class="icon-link"
+        href={site.repo}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="AniScroll on GitHub"
+      >
+        <Icon name="github" size={19} />
+      </a>
+      <a
+        class="btn btn-primary btn-small header-download"
+        href={site.latestRelease}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Icon name="download" size={17} />
+        Download
+      </a>
+      <button
+        class="menu-toggle"
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        aria-label="Open menu"
+      >
+        <span class="menu-icon-open"><Icon name="menu" size={22} /></span>
+        <span class="menu-icon-close"><Icon name="x" size={22} /></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="mobile-navigation" data-mobile-nav aria-label="Mobile navigation" hidden>
+    <div class="mobile-nav-inner">
+      {nav.map((item) => <a href={item.href} data-nav-link>{item.label}</a>)}
+      <a
+        class="btn btn-primary mobile-download"
+        href={site.latestRelease}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-nav-link
+      >
+        <Icon name="download" size={18} />
+        Download latest APK
+      </a>
+      <a class="mobile-github" href={site.repo} target="_blank" rel="noopener noreferrer" data-nav-link>
+        <Icon name="github" size={18} />
+        View source on GitHub
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const mobileNav = document.querySelector('[data-mobile-nav]');
+  const navLinks = document.querySelectorAll('[data-nav-link]');
+
+  const setMenu = (open) => {
+    if (!toggle || !mobileNav) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    mobileNav.hidden = !open;
+    header?.classList.toggle('menu-is-open', open);
+    document.body.classList.toggle('menu-open', open);
+  };
+
+  const updateHeader = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+
+  toggle?.addEventListener('click', () => {
+    setMenu(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  navLinks.forEach((link) => link.addEventListener('click', () => setMenu(false)));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenu(false);
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) setMenu(false);
+  });
+
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+</script>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Icon from '../components/Icon.astro';
+import { site, url } from '../lib/site';
+---
+
+<BaseLayout
+  title="Page not found — AniScroll"
+  description="The page you were looking for does not exist."
+  noindex
+>
+  <Header />
+
+  <main id="main" class="not-found">
+    <div class="container not-found-inner">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> 404</span>
+      <h1>This page scrolled away.</h1>
+      <p>The link may be old, or the page may have moved. The story is still waiting.</p>
+      <div class="not-found-actions">
+        <a class="btn btn-primary" href={url('')}>
+          <Icon name="book" size={18} />
+          Back to AniScroll
+        </a>
+        <a class="btn btn-ghost" href={site.latestRelease} target="_blank" rel="noopener noreferrer">
+          <Icon name="download" size={18} />
+          Download the app
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,22 @@
+{
+  "name": "AniScroll",
+  "short_name": "AniScroll",
+  "description": "Manga, anime, novels, dictionaries, and language learning in one Android app.",
+  "start_url": "/aniscroll-website/",
+  "scope": "/aniscroll-website/",
+  "display": "standalone",
+  "background_color": "#07070a",
+  "theme_color": "#07070a",
+  "icons": [
+    {
+      "src": "/aniscroll-website/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/aniscroll-website/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

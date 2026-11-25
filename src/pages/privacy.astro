@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { site } from '../lib/site';
+
+const updated = 'November 25, 2026';
+---
+
+<BaseLayout
+  title="Privacy — AniScroll"
+  description="How AniScroll handles your library, online dictionary lookups, backups, and website data."
+>
+  <Header />
+
+  <main id="main" class="legal-page">
+    <div class="container legal-container">
+      <div class="legal-head">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Privacy</span>
+        <h1>Privacy, without the fine print.</h1>
+        <p>
+          AniScroll is designed to keep your library on your device. This page explains what the
+          app stores, when it uses the network, and what the website does.
+        </p>
+        <p class="legal-updated">Last updated: {updated}</p>
+      </div>
+
+      <div class="legal-body">
+        <section>
+          <h2>Your library stays on your device</h2>
+          <p>
+            AniScroll does not require an account. Your manga, anime, novels, reading progress,
+            settings, and downloaded content are stored locally on your device unless you choose
+            to export a backup or use an optional integration.
+          </p>
+        </section>
+
+        <section>
+          <h2>Online dictionary lookups</h2>
+          <p>
+            When the online dictionary fallback is enabled, the word you look up is sent to the
+            selected provider so a definition can be returned. Japanese lookups use Jisho and
+            JMdict data. Chinese, Korean, and other languages use Wiktionary.
+          </p>
+          <p>
+            Only the search term is sent for a dictionary lookup. The fallback can be disabled at
+            any time in AniScroll's dictionary settings to keep lookups fully offline.
+          </p>
+        </section>
+
+        <section>
+          <h2>Sources, extensions, and media</h2>
+          <p>
+            AniScroll can connect to content sources, extension repositories, video hosts, and
+            other network services that you choose to use. Those services operate independently
+            and have their own privacy policies. AniScroll does not control how they handle
+            requests.
+          </p>
+        </section>
+
+        <section>
+          <h2>Backups</h2>
+          <p>
+            Backups are created only when you request them. You can optionally protect a backup
+            with a password using AES-256-GCM encryption and PBKDF2 key derivation. If you lose
+            the password, AniScroll cannot recover it.
+          </p>
+        </section>
+
+        <section>
+          <h2>This website</h2>
+          <p>
+            The AniScroll website is a static site. It does not set cookies, run advertising, or
+            include third-party analytics. The download section may request the latest release
+            information from GitHub's public API.
+          </p>
+          <p>
+            The site is hosted on GitHub Pages. GitHub, as the hosting provider, may process
+            standard request information such as IP addresses for security and operational
+            purposes under its own privacy policy.
+          </p>
+        </section>
+
+        <section>
+          <h2>Open source and contact</h2>
+          <p>
+            AniScroll is an independent open-source project. If you have a privacy question or
+            want to report a problem, open an issue on
+            <a href={site.issues} target="_blank" rel="noopener noreferrer">GitHub Issues</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Changes to this policy</h2>
+          <p>
+            If this policy changes, the updated version will be published on this page with a new
+            date. Continued use of AniScroll after an update means the revised policy applies.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

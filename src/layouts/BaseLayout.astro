@@ -1,0 +1,108 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/sora';
+import '../styles/global.css';
+import { site, url } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'AniScroll — Manga, Anime, Novels & Language Learning',
+  description = site.description,
+  image = 'og-image.jpg',
+  noindex = false,
+} = Astro.props;
+
+const origin = Astro.site ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, origin);
+const socialImage = new URL(url(image), origin);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'AniScroll',
+  applicationCategory: 'EntertainmentApplication',
+  operatingSystem: 'Android 8.0+',
+  description,
+  url: canonical.href,
+  downloadUrl: site.latestRelease,
+  softwareVersion: site.fallbackVersion,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  isAccessibleForFree: true,
+  license: site.license,
+  sameAs: [site.repo, site.discord],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#07070a" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" sizes="32x32" href={url('favicon-32.png')} />
+    <link rel="icon" type="image/png" sizes="64x64" href={url('favicon.png')} />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+    <link rel="manifest" href={url('site.webmanifest')} />
+    <link rel="sitemap" href={url('sitemap.xml')} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AniScroll" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content="AniScroll — manga, anime, novels, and language learning in one Android app" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <link rel="preload" as="image" href={url('images/manga-popup-screen.jpg')} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <slot />
+
+    <script>
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealItems = document.querySelectorAll('[data-reveal]');
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealItems.forEach((item) => item.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        revealItems.forEach((item) => observer.observe(item));
+      }
+    </script>
+  </body>
+</html>
