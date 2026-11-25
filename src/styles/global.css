@@ -1320,7 +1320,7 @@ p {
   transform: translateX(-50%);
 }
 
-.download-panel > * {
+.download-panel > *:not(.download-glow) {
   position: relative;
   z-index: 1;
 }
