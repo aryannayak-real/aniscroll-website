@@ -72,9 +72,6 @@ const structuredData = {
     <meta name="twitter:image" content={socialImage} />
 
     <link rel="preload" as="image" href={url('images/manga-popup-screen.jpg')} />
-    <script is:inline>
-      document.documentElement.classList.add('js');
-    </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
@@ -90,6 +87,8 @@ const structuredData = {
       if (reduceMotion || !('IntersectionObserver' in window)) {
         revealItems.forEach((item) => item.classList.add('is-visible'));
       } else {
+        revealItems.forEach((item) => item.classList.add('reveal-init'));
+
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
@@ -101,7 +100,14 @@ const structuredData = {
           },
           { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
         );
+
         revealItems.forEach((item) => observer.observe(item));
+
+        // Safety net for browsers or preview services that do not deliver
+        // intersection callbacks. Content must never stay invisible.
+        window.setTimeout(() => {
+          revealItems.forEach((item) => item.classList.add('is-visible'));
+        }, 1600);
       }
     </script>
   </body>
